@@ -1,0 +1,49 @@
+{
+  "name": "sdk-authentication",
+  "version": "1.0.0",
+  "description": "Kibo API Auth Client for TypeScript",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "test": "jest",
+    "build": "tsc",
+    "release": "npm run build && npm publish"
+  },
+  "author": "Kibo Software",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/isomorphic-fetch": "^0.0.35",
+    "@types/jest": "^27.0.2",
+    "@types/node": "^15.14.9",
+    "@typescript-eslint/eslint-plugin": "^4.23.0",
+    "@typescript-eslint/parser": "^4.23.0",
+    "dotenv": "^10.0.0",
+    "eslint": "^7.26.0",
+    "jest": "^27.0.5",
+    "nock": "^13.2.1",
+    "ts-jest": "^27.0.7",
+    "typescript": "^4.2.4"
+  },
+  "dependencies": {
+    "@apollo/client": "^3.3.2",
+    "apollo-cache-inmemory": "^1.6.6",
+    "apollo-client": "^2.6.10",
+    "apollo-link-context": "^1.0.20",
+    "apollo-link-error": "^1.1.13",
+    "apollo-link-http": "^1.5.17",
+    "apollo-link-retry": "^2.2.16",
+    "graphql": "^15.5.0",
+    "graphql-tag": "^2.12.4",
+    "http-proxy-agent": "^4.0.1",
+    "https-proxy-agent": "^5.0.0",
+    "isomorphic-fetch": "^3.0.0",
+    "node-cache": "^5.1.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/KiboSoftware/sdk-authentication.git"
+  },
+  "files": [
+    "dist/**/*"
+  ]
+}
