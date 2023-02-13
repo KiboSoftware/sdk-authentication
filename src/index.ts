@@ -56,7 +56,14 @@ export class APIAuthClient implements APIAuthenticationFetcher {
   ): Promise<AppAuthTicket> {
     // fetch app auth ticket
     const response: Response = await this._fetcher(url, options);
+    if(response?.status >= 500) {
+      throw new Error(response?.statusText);
+    }
+
     const authTicket = (await response.json()) as AppAuthTicket;
+    if(authTicket?.errorCode) {
+      throw new Error(authTicket.message);
+    }
     // set expiration time in ms on auth ticket
     authTicket.expires_at = calculateTicketExpiration(authTicket);
     return authTicket;
@@ -101,15 +108,19 @@ export class APIAuthClient implements APIAuthenticationFetcher {
 
   public async getAccessToken(): Promise<string> {
     // get current Kibo API auth ticket
-    let authTicket = await this._authTicketCache?.getAuthTicket();
+    try { 
+      let authTicket = await this._authTicketCache?.getAuthTicket();
 
-    // if no current ticket, perform auth
-    // or if ticket expired, refresh auth
-    if (!authTicket) {
-      authTicket = await this.authenticate();
-    } else if (authTicket.expires_at < Date.now()) {
-      authTicket = await this.refreshTicket(authTicket);
-    }
-    return authTicket?.access_token as string;
+      // if no current ticket, perform auth
+      // or if ticket expired, refresh auth
+      if (!authTicket) {
+        authTicket = await this.authenticate();
+      } else if (authTicket.expires_at < Date.now()) {
+        authTicket = await this.refreshTicket(authTicket);
+      }    
+      return authTicket?.access_token as string;
+     } catch(error: any) {
+      throw new Error(error.message)
+     }
   }
 }

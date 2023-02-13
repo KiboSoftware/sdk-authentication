@@ -14,6 +14,8 @@ export interface AppAuthTicket {
     expires_in: number
     expires_at: number
     refresh_token: string | null
+    errorCode?: string
+    message?: string
 }
 
 export interface UserAuthTicket {
