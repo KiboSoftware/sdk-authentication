@@ -13,12 +13,13 @@ export class APIAuthClient implements APIAuthenticationFetcher {
   private _authHost: string;
   private _authTicketCache?: AuthTicketCache;
   private _fetcher: any;
+  private _isInternal: any;
 
   constructor(
     { clientId, sharedSecret, authHost }: KiboApolloApiConfig,
     fetcher: any,
     authTicketCache?: AuthTicketCache,
-    isInternal?: bool 
+    isInternal?: boolean 
   ) {
     if (!clientId || !sharedSecret || !authHost) {
       throw new Error(
@@ -78,7 +79,7 @@ export class APIAuthClient implements APIAuthenticationFetcher {
       client_secret: this._sharedSecret,
       grant_type: "client_credentials",
     });
-    const path = this._isInternal ? `/api/platform/applications/internal/access-tokens/oauth` : `/api/platform/applications/authtickets/oauth`
+    const path = this._isInternal ? `/platform/applications/internal/access-tokens/oauth` : `/api/platform/applications/authtickets/oauth`
     // perform authentication
     const authTicket = await this._fetchAuthTicket(
       `${this._authHost}${path}`,

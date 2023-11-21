@@ -1,6 +1,6 @@
 {
-  "name": "sdk-authentication",
-  "version": "1.0.0",
+  "name": "@kibocommerce/sdk-authentication",
+  "version": "1.0.1",
   "description": "Kibo API Auth Client for TypeScript",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
