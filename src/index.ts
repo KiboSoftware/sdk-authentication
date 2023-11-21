@@ -13,11 +13,13 @@ export class APIAuthClient implements APIAuthenticationFetcher {
   private _authHost: string;
   private _authTicketCache?: AuthTicketCache;
   private _fetcher: any;
+  private _isInternal: any;
 
   constructor(
     { clientId, sharedSecret, authHost }: KiboApolloApiConfig,
     fetcher: any,
-    authTicketCache?: AuthTicketCache
+    authTicketCache?: AuthTicketCache,
+    isInternal?: boolean 
   ) {
     if (!clientId || !sharedSecret || !authHost) {
       throw new Error(
@@ -33,7 +35,8 @@ export class APIAuthClient implements APIAuthenticationFetcher {
     this._sharedSecret = sharedSecret;
     this._authHost = addProtocolToHost(authHost) as string;
     this._fetcher = fetcher;
-
+    this._isInternal = isInternal;
+    
     if (authTicketCache) {
       this._authTicketCache = authTicketCache;
     }
@@ -76,9 +79,10 @@ export class APIAuthClient implements APIAuthenticationFetcher {
       client_secret: this._sharedSecret,
       grant_type: "client_credentials",
     });
+    const path = this._isInternal ? `/platform/applications/internal/access-tokens/oauth` : `/api/platform/applications/authtickets/oauth`
     // perform authentication
     const authTicket = await this._fetchAuthTicket(
-      `${this._authHost}/api/platform/applications/authtickets/oauth`,
+      `${this._authHost}${path}`,
       options
     );
     // set authentication ticket on next server runtime object
@@ -95,9 +99,10 @@ export class APIAuthClient implements APIAuthenticationFetcher {
       grant_type: "client_credentials",
       refresh_token: kiboAuthTicket?.refresh_token,
     });
+    const path = this._isInternal ? `/api/platform/applications/internal/access-tokens/oauth` : `/api/platform/applications/authtickets/oauth`
     // perform auth ticket refresh
     const refreshedTicket = await this._fetchAuthTicket(
-      `${this._authHost}/api/platform/applications/authtickets/oauth`,
+      `${this._authHost}${path}`,
       options
     );
     // set authentication ticket on next server runtime object
