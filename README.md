@@ -21,7 +21,7 @@ The following data is required to authenticate with Kibo Commerce platform
 - `clientId` - Unique Application (Client) ID of your Application
 - `sharedSecret` - Secret API key used to authenticate application. Viewable from your [Kibo eCommerce Dev Center](https://mozu.com/login)
 
-Visit [Kibo documentation](https://apidocs.kibong-perf.com/?spec=graphql#auth) for more details on API authentication
+Visit [Kibo documentation](https://api-docs.kibocommerce.com/reference/getting-started-with-your-api#how-to-authenticate) for more details on API authentication
 
 ## Usage
 
@@ -100,21 +100,5 @@ const config = {
 
 const apiAuthClient = new APIAuthClient(config, fetch, memCache)
 const kiboAccessToken = await apiAuthClient.getAccessToken()
-
-```
-
-For environments where you are unable to set environment variables, the API configuration can be passed to the CreateApolloClient call
-
-```js
-import { CreateApolloClient } from '@kibocommerce/graphql-client';
-
-const client = CreateApolloClient({
-    api: {
-        authHost: "home.mozu.com"
-        apiHost: "t1234-s1234.sandbox.mozu.com",
-        clientId: "KIBO_APP.1.0.0.Release",
-        sharedSecret: "12345_Secret",        
-    }
-});
 
 ```
